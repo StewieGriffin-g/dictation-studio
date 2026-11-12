@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="全新版大学英语综合教程 1 单元词汇默写与错题复习">
+  <meta name="theme-color" content="#ffffff">
+  <title>蒋林轩专属默写器</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="words.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 6.5C9.5 4.5 6.7 4.1 3.5 5v13c3.2-.9 6-.5 8.5 1.5 2.5-2 5.3-2.4 8.5-1.5V5c-3.2-.9-6-.5-8.5 1.5v13"/><path d="M6.5 8.5c1.1-.1 2.1.1 3 .6m-3 3c1.1-.1 2.1.1 3 .6"/></symbol>
+    <symbol id="edit" viewBox="0 0 24 24"><path d="M13.5 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.5M10 14l.8-3.3 7.6-7.6a1.8 1.8 0 0 1 2.5 2.5l-7.6 7.6L10 14z"/></symbol>
+    <symbol id="history" viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.4 6.1M3 5v6h6m3-4v5l3 2"/></symbol>
+    <symbol id="grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.3"/><rect x="14" y="4" width="6" height="6" rx="1.3"/><rect x="4" y="14" width="6" height="6" rx="1.3"/><rect x="14" y="14" width="6" height="6" rx="1.3"/></symbol>
+    <symbol id="hint" viewBox="0 0 24 24"><path d="M9 18h6m-5 3h4m-5-6c0-2-3-2.8-3-6a6 6 0 0 1 12 0c0 3.2-3 4-3 6"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M4.5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></symbol>
+    <symbol id="stack" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5m-18 4 9 5 9-5"/></symbol>
+    <symbol id="keyboard" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M18 10h.01M8 14h8"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#practice">
+        <span class="brand-mark"><svg class="icon"><use href="#book"/></svg></span>
+        <span>蒋林轩专属默写器</span>
+      </a>
+      <nav aria-label="主导航">
+        <a href="#practice" id="nav-practice" aria-current="page"><svg class="icon"><use href="#edit"/></svg>单元默写</a>
+        <a href="#mistakes" id="nav-mistakes"><svg class="icon"><use href="#history"/></svg>错题本<span id="nav-count" class="nav-count" hidden></span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="intro">
+      <div class="course"><svg class="icon"><use href="#book"/></svg>全新版大学英语 · 综合教程 1</div>
+      <h1 id="page-title">单词默写</h1>
+      <p id="page-description">选择一个单元，根据中文释义写出对应的英文单词或短语。</p>
+    </div>
+
+    <div id="practice-view" class="layout">
+      <aside class="card settings" aria-label="练习设置">
+        <div class="settings-heading">
+          <span class="icon-box"><svg class="icon"><use href="#grid"/></svg></span>
+          <div><h2>选择单元</h2><p id="bank-size"></p></div>
+        </div>
+        <div class="units" id="units" role="group" aria-label="选择单元"></div>
+        <label class="hint-control" for="hint-toggle">
+          <span class="icon-box hint-box"><svg class="icon"><use href="#hint"/></svg></span>
+          <span class="hint-label"><strong>首字母提示</strong><small>显示英文答案的首字母</small></span>
+          <input type="checkbox" id="hint-toggle" class="switch" role="switch">
+        </label>
+      </aside>
+
+      <section class="card exercise" aria-labelledby="exercise-title">
+        <div class="exercise-head">
+          <div>
+            <h2 id="exercise-title">Unit 01</h2>
+            <p id="exercise-subtitle">单元练习</p>
+          </div>
+          <div class="progress-label"><strong id="progress-current">1</strong><span id="progress-total"> / 66</span></div>
+        </div>
+        <progress id="progress" value="0" max="66" aria-label="已完成题数"></progress>
+
+        <form id="answer-form">
+          <div class="question" aria-live="polite">
+            <div class="question-label"><span></span> 中文释义</div>
+            <p id="clue"></p>
+            <div id="initial" class="initial" hidden></div>
+          </div>
+          <div class="answer-area">
+            <label for="answer">你的答案</label>
+            <input id="answer" type="text" lang="en" placeholder="输入英文单词或短语" aria-describedby="clue initial feedback" autocomplete="off" autocapitalize="none" spellcheck="false">
+            <div id="feedback" class="feedback" role="status"></div>
+            <div class="actions">
+              <button id="submit" class="primary" type="submit"><span>提交答案</span><svg class="icon"><use href="#arrow"/></svg></button>
+              <button id="skip" class="quiet" type="button">不会，查看答案</button>
+            </div>
+          </div>
+        </form>
+
+        <div id="result" class="result" hidden>
+          <span class="result-icon"><svg class="icon"><use href="#check"/></svg></span>
+          <h3 id="result-title"></h3>
+          <p id="result-summary"></p>
+          <div class="actions">
+            <button id="restart" class="primary" type="button">再练一次<svg class="icon"><use href="#arrow"/></svg></button>
+            <a class="quiet" href="#mistakes">查看错题本</a>
+          </div>
+        </div>
+
+        <div class="exercise-foot">
+          <span><svg class="icon"><use href="#keyboard"/></svg> <kbd>Enter</kbd> 提交或进入下一题</span>
+          <a href="#mistakes" id="exit-review" hidden>返回错题本</a>
+        </div>
+      </section>
+    </div>
+
+    <section id="mistakes-view" class="card mistake-card" aria-labelledby="mistake-heading" hidden>
+      <div class="mistake-head">
+        <div class="settings-heading">
+          <span class="icon-box"><svg class="icon"><use href="#history"/></svg></span>
+          <div><h2 id="mistake-heading">错题记录</h2><p id="mistake-summary"></p></div>
+        </div>
+        <button id="review-all" class="primary" type="button">开始复习<svg class="icon"><use href="#arrow"/></svg></button>
+      </div>
+      <div id="mistake-empty" class="mistake-empty" hidden>
+        <span class="result-icon"><svg class="icon"><use href="#stack"/></svg></span>
+        <h3>还没有错题</h3>
+        <p>答错或查看答案的词条会自动收录到这里。</p>
+        <a class="quiet" href="#practice">去单元默写<svg class="icon"><use href="#arrow"/></svg></a>
+      </div>
+      <div id="mistake-content" hidden>
+        <div class="filter">
+          <label for="mistake-unit">筛选单元</label>
+          <select id="mistake-unit"><option value="all">全部单元</option></select>
+        </div>
+        <p id="filter-empty" class="filter-empty" hidden>这个单元还没有错题。</p>
+        <ul id="mistake-list" class="mistake-list"></ul>
+      </div>
+    </section>
+
+    <footer>
+      <span><svg class="icon"><use href="#book"/></svg>《全新版大学英语（第二版）》综合教程学生用书 1</span>
+      <span id="save-note">错题记录保存在当前浏览器</span>
+    </footer>
+  </main>
+</body>
+</html>
+
