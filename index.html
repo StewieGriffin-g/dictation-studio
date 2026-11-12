@@ -40,7 +40,7 @@
     <div class="intro">
       <div class="course"><svg class="icon"><use href="#book"/></svg>全新版大学英语 · 综合教程 1</div>
       <h1 id="page-title">单词默写</h1>
-      <p id="page-description">选择一个单元，根据中文释义写出对应的英文单词或短语。</p>
+      <p id="page-description">选择一个或多个单元，再选择练习方式。</p>
     </div>
 
     <div id="practice-view" class="layout">
@@ -49,12 +49,24 @@
           <span class="icon-box"><svg class="icon"><use href="#grid"/></svg></span>
           <div><h2>选择单元</h2><p id="bank-size"></p></div>
         </div>
-        <div class="units" id="units" role="group" aria-label="选择单元"></div>
-        <label class="hint-control" for="hint-toggle">
+        <div class="units" id="units" role="group" aria-label="选择一个或多个单元"></div>
+        <fieldset class="modes">
+          <legend>练习方式</legend>
+          <label><input type="radio" name="mode" value="dictation" checked><span>看中文写英文</span></label>
+          <label><input type="radio" name="mode" value="meaning"><span>看英文选词义</span></label>
+        </fieldset>
+        <label class="hint-control" for="shuffle-toggle">
+          <span class="icon-box hint-box"><svg class="icon"><use href="#stack"/></svg></span>
+          <span class="hint-label"><strong>乱序出题</strong><small>打乱所选单元的题目顺序</small></span>
+          <input type="checkbox" id="shuffle-toggle" class="switch" role="switch">
+        </label>
+        <label class="hint-control" id="hint-control" for="hint-toggle">
           <span class="icon-box hint-box"><svg class="icon"><use href="#hint"/></svg></span>
           <span class="hint-label"><strong>首字母提示</strong><small>显示英文答案的首字母</small></span>
           <input type="checkbox" id="hint-toggle" class="switch" role="switch">
         </label>
+        <button id="start-practice" class="primary start-practice" type="button">开始练习<svg class="icon"><use href="#arrow"/></svg></button>
+        <p class="settings-status" id="selection-summary" aria-live="polite"></p>
       </aside>
 
       <section class="card exercise" aria-labelledby="exercise-title">
@@ -69,13 +81,19 @@
 
         <form id="answer-form">
           <div class="question" aria-live="polite">
-            <div class="question-label"><span></span> 中文释义</div>
+            <div class="question-label"><span></span><strong id="question-label">中文释义</strong></div>
             <p id="clue"></p>
             <div id="initial" class="initial" hidden></div>
           </div>
           <div class="answer-area">
-            <label for="answer">你的答案</label>
+            <div id="dictation-answer">
+              <label for="answer">你的答案</label>
             <input id="answer" type="text" lang="en" placeholder="输入英文单词或短语" aria-describedby="clue initial feedback" autocomplete="off" autocapitalize="none" spellcheck="false">
+            </div>
+            <fieldset id="meaning-answer" class="meaning-answer" hidden>
+              <legend>选择正确的中文词义</legend>
+              <div class="choices" id="choices"></div>
+            </fieldset>
             <div id="feedback" class="feedback" role="status"></div>
             <div class="actions">
               <button id="submit" class="primary" type="submit"><span>提交答案</span><svg class="icon"><use href="#arrow"/></svg></button>
@@ -95,7 +113,7 @@
         </div>
 
         <div class="exercise-foot">
-          <span><svg class="icon"><use href="#keyboard"/></svg> <kbd>Enter</kbd> 提交或进入下一题</span>
+          <span><svg class="icon"><use href="#keyboard"/></svg><span id="exercise-tip">按 Enter 提交或进入下一题</span></span>
           <a href="#mistakes" id="exit-review" hidden>返回错题本</a>
         </div>
       </section>

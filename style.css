@@ -146,3 +146,26 @@ footer .icon { width: 15px; height: 15px; }
   *, *::before { transition: none !important; }
 }
 
+
+.modes, .meaning-answer { min-inline-size: 0; margin: 0; padding: 0; border: 0; }
+.modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; padding-bottom: 13px; }
+.modes legend, .meaning-answer legend { margin-bottom: 8px; padding: 0; font-size: 13px; font-weight: 760; }
+.modes label, .choice { position: relative; margin: 0; cursor: pointer; }
+.modes input, .choice input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.modes span { display: grid; place-items: center; min-height: 38px; padding: 6px 4px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); font-size: 12px; font-weight: 700; text-align: center; }
+.modes input:checked + span { border-color: #8378ee; color: var(--accent-deep); background: #f3f1ff; }
+.modes input:focus-visible + span, .choice input:focus-visible + .choice-body { outline: 3px solid #7770f0; outline-offset: 2px; }
+.hint-control { padding-block: 9px; }
+.start-practice { width: 100%; margin-top: 9px; }
+.settings-status { min-height: 16px; margin-top: 7px; color: var(--muted); font-size: 11px; text-align: center; }
+.choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.choices .choice { display: block; margin: 0; font-weight: 600; }
+.choice-body { display: flex; align-items: center; gap: 9px; min-height: 53px; height: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 9px; line-height: 1.55; overflow-wrap: anywhere; }
+.choice-letter { display: grid; place-items: center; width: 24px; height: 24px; flex: none; border-radius: 6px; color: var(--accent-deep); background: #f1effc; font-weight: 800; }
+.choice:hover .choice-body, .choice input:checked + .choice-body { border-color: #8378ee; background: #f7f5ff; }
+.choice input:disabled + .choice-body { cursor: default; }
+.choice.correct .choice-body { border-color: #60a383; background: #eef9f3; }
+.choice.incorrect .choice-body { border-color: #cc6455; background: #fff2ed; }
+@media (max-width: 475px) {
+  .choices { grid-template-columns: minmax(0, 1fr); }
+}
